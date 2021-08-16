@@ -1,0 +1,31 @@
+header {
+
+    nav {
+        opacity: 0;
+        pointer-events: none;
+        background-color: $black-1;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        transition: opacity 1s ease;
+
+        ul {
+            text-align: center;
+        }
+
+        li {
+            font-size: 20px;
+            font-weight: 500;
+            display: inline-block;
+            margin: 20px 10px;
+        }
+    }
+
+    nav.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}

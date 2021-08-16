@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: $black-2;
+    color: $white;
+}
+
+section {
+    scroll-snap-align: center;
+}
+
+h1 {
+    font-size: 60px;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 50px;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.row {
+    display: flex;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    display: block;
+}
+
+.text-grey {
+    color: $grey-2;
+}
+
+.grayscale {
+    filter: grayscale(1);
+}

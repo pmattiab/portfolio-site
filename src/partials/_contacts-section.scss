@@ -1,0 +1,145 @@
+section#contacts {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.contacts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .col {
+        width: 285px;
+        margin: 10px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+    
+    button {
+        color: $grey-2;
+        background-color: transparent;
+        cursor: pointer;
+    
+        &:hover {
+            color: $white;
+            transform: scale(103%);
+        }
+    
+        &:active {
+            transform: translateY(+2px);
+        }
+    }
+}
+
+// ------------------------------------------------------------
+
+button#maps-open,
+button#email-open,
+button#github-open,
+button#linkedin-open {
+    width: 100%;
+    padding: 14px 30px;
+    font-size: 19px;
+    font-weight: 400;
+    text-align: left;
+
+    i {
+        margin-right: 8px;
+    }
+}
+
+button#maps-close,
+button#email-close,
+button#github-close,
+button#linkedin-close {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 15px !important;
+    color: $white;
+    padding: 10px 20px;
+    font-size: 19px;
+    font-weight: 400;
+
+    &:hover,
+    &:active {
+        color: $white;
+        transform: none;
+        background-color: $red;
+        border-color: $red;
+    }
+
+    &:active {
+        transform: translateY(+2px);
+    }
+}
+
+.modal-container {
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    transform: translateY(-130px);
+    background-color: $black-2;
+    border: 2px solid $grey-2;
+    border-radius: 10px;
+    padding: 20px 30px;
+    width: 500px;
+
+    p {
+        font-size: 18px;
+        margin: 15px 0 30px 0;
+    }
+
+    i {
+        font-size: 35px;
+    }
+
+    button#email-copy {
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 15px !important;
+        color: $white;
+        padding: 10px 20px;
+        font-size: 19px;
+        font-weight: 400;
+    }
+
+    button#email-copy:hover,
+    button#email-copy:active,
+    a:hover,
+    a:active {
+        transform: none;
+        background-color: $green;
+        border-color: $green;
+    }
+
+    a:active {
+        transform: translateY(+2px);
+    }
+
+    .google-g img {
+        height: 15px;
+        margin: 0 3px;
+        vertical-align: middle;
+    }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

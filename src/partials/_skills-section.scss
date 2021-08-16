@@ -1,0 +1,51 @@
+section#skills {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    h3 {
+        margin-bottom: 15px;
+    }
+
+    .front-end,
+    .back-end,
+    .learning {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .front-end-list,
+    .back-end-list,
+    .learning-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .front-end-list li,
+    .back-end-list li,
+    .learning-list li {
+        list-style-type: none;
+        margin: 10px;
+        cursor: pointer;
+
+        &:hover img {
+            transform: scale(107%);
+        }
+    }
+
+    .front-end-list li img,
+    .back-end-list li img,
+    .learning-list li img {
+        height: 50px;
+        width: auto;
+    }
+}

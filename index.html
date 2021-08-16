@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pmattiab Web Developer</title>
+    <link rel="stylesheet" href="dist/app.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</head>
+
+<body>
+
+    <div id="root">
+        <header>
+            <nav :class="{show : navbarVisible}">
+                <ul>
+                    <li>
+                        <a href="#skills">SKILLS</a>
+                    </li>
+                    <li>
+                        <a href="#projects">PROJECTS</a>
+                    </li>
+                    <li>
+                        <a href="#contacts">CONTACTS</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    
+        <main>
+    
+            <section id="welcome">
+                <div class="welcome-container">
+                    <h1 id="title"></h1>
+                </div>
+        
+                <div class="scroll-down-container" :class="{show : scrollDownVisible}">
+                    <div class="scroll-down">
+                        <div class="mouse">
+                            <span></span>
+                        </div>
+                        <div class="down-arrow">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <section id="skills">
+                <div class="skills-container">
+                    <div class="skills-title">
+                        <h2>Skills</h2>
+                    </div>
+                    <div class="front-end">
+                        <div :class="{'text-grey' : !frontEndTitleWhite}">
+                            <h3>{{frontEndTitle}}</h3>
+                        </div>
+                        <ul class="front-end-list" @mouseleave="mouseLeave()">
+                            <li v-for="(skill, index, key) in frontEndSkills" @mouseover="frontMouseOver(index)">
+                                <img :src="'img/' + skill.path" :alt="skill.title">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="back-end">
+                        <div :class="{'text-grey' : !backEndTitleWhite}">
+                            <h3>{{backEndTitle}}</h3>
+                        </div>
+                        <ul class="back-end-list" @mouseleave="mouseLeave()">
+                            <li v-for="(skill, index) in backEndSkills" @mouseover="backMouseOver(index)">
+                                <img :src="'img/' + skill.path" :alt="skill.title">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="learning">
+                        <div :class="{'text-grey' : !learningTitleWhite}">
+                            <h3>{{learningTitle}}</h3>
+                        </div>
+                        <ul class="learning-list" @mouseleave="mouseLeave()">
+                            <li v-for="(skill, index) in learningSkills" @mouseover="learningMouseOver(index)">
+                                <img :src="'img/' + skill.path" :alt="skill.title">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="projects">
+                <div class="projects-container">
+                    <div class="projects-title">
+                        <h2>Projects</h2>
+                    </div>
+                    <div v-for="project in projects" class="project-description" :class="{show : project.descrVisible}">
+                        <p v-show="project.descrVisible">{{project.description}}
+                            <a target="_blank" :href="'projects/' + project.class + '.html'" class="btn" :class="project.class">
+                                View project
+                                <i class="far fa-arrow-alt-circle-right"></i>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="projects-list">
+                        <div v-for="(project, index) in projects" :class="[project.class, {'grayscale' : project.grayscale}]" class="blob" @click="projectShow(index)">
+                            <span>{{project.title}}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <section id="contacts">
+                <div class="contacts-container">
+                    <div class="contacts-title">
+                        <h2>Contacts</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn" id="maps-open" v-on:click="showModal(1)"><i class="fas fa-map-marker-alt"></i>Nusco - Avellino - Italy</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn" id="email-open" v-on:click="showModal(2)"><i class="fas fa-envelope"></i>Email: pmattiab@live.it</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn" id="linkedin-open" v-on:click="showModal(3)"><i class="fab fa-linkedin-in"></i>Linkedin Profile</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn" id="github-open" v-on:click="showModal(4)"><i class="fab fa-github"></i>GitHub Repositories</button>
+                        </div>
+                    </div>
+                    <div class="modal-container" id="maps-modal" v-if="activeModalIndex == 1">
+                        <div class="modal">
+                            <span><i class="fas fa-map-marked-alt"></i></span>
+                            <p>Open position on Google Maps in a new tab</p>
+                            <div class="buttons">
+                                <a target="_blank" href="https://www.google.it/maps?q=40.887117,15.088248" class="btn">Open
+                                    <span class="google-g"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1920px-Google_%22G%22_Logo.svg.png" alt="google logo"></span>
+                                    Maps</a>
+                                <button class="btn" id="maps-close" v-on:click="showModal(0)">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-container" id="email-modal" v-if="activeModalIndex == 2">
+                        <div class="modal">
+                            <span><i class="fas fa-envelope-open-text"></i></span>
+                            <p>{{emailText}}</p>
+                            <div class="buttons">
+                                <button class="btn" id="email-copy" v-on:click="copyEmail()">Copy email address</button>
+                                <button class="btn" id="email-close" v-on:click="showModal(0)">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-container" id="linkedin-modal" v-if="activeModalIndex == 3">
+                        <div class="modal">
+                            <span><i class="fab fa-linkedin"></i></span>
+                            <p>Open my Linkedin profile in a new tab</p>
+                            <div class="buttons">
+                                <a target="_blank" href="https://www.linkedin.com/in/pmattiab" class="btn" id="linkedin-open">Linkedin Profile</a>
+                                <button class="btn" id="linkedin-close" v-on:click="showModal(0)">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-container" id="github-modal" v-if="activeModalIndex == 4">
+                        <div class="modal">
+                            <span><i class="fab fa-github-square"></i></span>
+                            <p>Open my Github profile in a new tab</p>
+                            <div class="buttons">
+                                <a target="_blank" href="https://github.com/pmattiab" class="btn" id="github-open">GitHub Profile</a>
+                                <button class="btn" id="github-close" v-on:click="showModal(0)">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+        </main>
+    
+        <footer>
+        </footer>
+    </div>
+
+    <script src="dist/app.js"></script>
+
+</body>
+</html>

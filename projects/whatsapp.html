@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp clone</title>
+    <link rel="stylesheet" href="whatsapp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+    <!-- INIZIO WRAPPER -->
+    <div class="wrapper">
+
+        <!-- inizio vue js #root -->
+        <div id="root">
+
+            <!-- inizio app containter -->
+            <div class="app_container flex">
+
+                <!-- inizio colonna sinistra -->
+                <div class="left_col">
+
+                    <!-- inizio sezione my user -->
+                    <div class="myuser bglightgray flex align_center padding_10_15">
+                        
+                        <!-- immagine my user -->
+                        <div class="myuser_img">
+                            <img :src="'img/avatar' + myContact.avatar + '.jpg'" alt="" class="circle_img">
+                        </div>
+
+                        <!-- nome my user -->
+                        <span class="myuser_name">{{myContact.name}}</span>
+                        
+                        <!-- sezione icone my user -->
+                        <div class="icons">
+                            <span class="icon pointer"><i class="fas fa-circle-notch"></i></span>
+                            <span class="icon pointer"><i class="fas fa-comment-alt"></i></span>
+                            <span class="icon pointer"><i class="fas fa-ellipsis-v"></i></span>
+                        </div>
+
+                    </div>
+                    <!-- fine sezione my user -->
+
+                    <!-- inizio sezione notifiche -->
+                    <div v-if="!notify" class="notify flex align_center padding_10_15">
+
+                        <!-- icona notifiche -->
+                        <div class="icon flex align_center circle_img">
+                            <span class="pointer"><i class="fas fa-bell-slash"></i></span>
+                        </div>
+
+                        <!-- testo notifiche -->
+                        <div>
+                            <div>Ricevi notifiche di nuovi messaggi</div>
+                            <span
+                            class="desktop_notify pointer"
+                            @click="notifyOn()">
+                                Attiva notifiche desktop
+                            </span>
+                        </div>
+
+                    </div>
+                    <!-- fine sezione notifiche -->
+
+                    <!-- inizio sezione contatti -->
+                    <div class="contacts" :class="{'contacts_grow': notify}">
+
+                        <!-- inizio filtro contatti -->
+                        <div class="text_input contacts_filter bglightgray flex align_center padding_10_15">
+                            
+                            <!-- icona search -->
+                            <div class="search_icon flex align_center">
+                                <span><i class="fas fa-search"></i></span>
+                            </div>
+                            
+                            <!-- input per filtrare -->
+                            <input
+                            type="text"
+                            class="filter_input"
+                            placeholder="Cerca o inizia una nuova chat"
+                            v-model="userFilter"
+                            @keyup="contactFilter">
+                            
+                        </div>
+                        <!-- fine filtro contatti -->
+
+                        <!-- inizio lista contatti -->
+                        <div class="contacts_cont">
+
+                            <!-- inizio contenitore contatti -->
+                            <ul class="contacts_list">
+
+                                <!-- inizio singolo contatto -->
+                                <li v-for="(contact, index) in contacts"
+                                v-if="contact.visible"
+                                @click="changeChat(contact, index)"
+                                class="single_chat pointer flex align_center padding_10_15"
+                                :class="{'active': index == currentChat, 'toread': contact.toRead}">
+
+                                    <!-- immagine contatto -->
+                                    <div class="chat_user_img">
+                                        <img :src="'img/avatar' + contact.avatar + '.jpg'" alt="" class="circle_img">
+                                    </div>
+
+                                    <!-- inizio dettagli contatto -->
+                                    <div class="contact_details flex">
+
+                                        <!-- nome contatto -->
+                                        <div class="chat_contact_name">{{contact.name}}</div>
+                                        
+                                        <!-- ultimo messaggio contatto -->
+                                        <div class="chat_last_msg" v-if="contact.messages.length > 0">
+                                            <span>{{contact.messages[lastMsgIndex(contact)].text}}</span>
+                                        </div>
+
+                                        <!-- ultimo accesso contatto -->
+                                        <div class="chat_last_login" v-if="!contact.toRead && contact.messages.length > 0">
+                                            <span>{{contact.messages[lastMsgIndex(contact)].date}}</span>
+                                        </div>
+                                        <div class="chat_last_login" v-else>
+                                            <span>{{ dayjs().format("DD/MM/YYYY HH:mm:ss")}}</span>
+                                        </div>
+                                    
+                                    </div>
+                                    <!-- fine dettagli contatto -->
+
+                                    <!-- cerchietto messaggio non letto con v-if -->
+                                    <div v-if="contact.toRead" class="toread_circle">
+                                        <i class="fas fa-circle"></i>
+                                    </div>
+
+                                </li>
+                                <!-- fine singolo contatto -->
+
+                            </ul>
+                            <!-- fine lista contatti -->
+
+                        </div>
+                        <!-- fine contenitore contatti -->
+
+                    </div>
+                    <!-- fine sezione contatti -->
+
+                </div>
+                <!-- fine colonna sinistra -->
+                
+                <!-- inizio colonna destra -->
+                <div class="right_col">
+
+                    <!-- inizio dettagli contatto chat attiva -->
+                    <div class="chat_user bglightgray flex align_center padding_10_15">
+                        
+                        <!-- immagine contatto -->
+                        <div class="chat_user_img">
+                            <img :src="'img/avatar' + contacts[currentChat].avatar + '.jpg'" alt="" class="circle_img">
+                        </div>
+
+                        <!-- info contatto chat attiva -->
+                        <div class="chat_user_name">
+
+                            <!-- nome contatto -->
+                            <div>{{contacts[currentChat].name}}</div>
+
+                            <!-- ultimo accesso -->
+                            <div v-if="contacts[currentChat].messages.length > 0">
+                                <span class="last_login">Ultimo accesso {{contacts[currentChat].messages[lastMsgIndex(contacts[currentChat])].date}}</span>
+                            </div>
+                            <div v-else>
+                                <span class="last_login">Ultimo accesso {{ dayjs().format("DD/MM/YYYY HH:mm:ss")}}</span>
+                            </div>
+                        </div>
+
+                        <!-- icone chat attiva -->
+                        <div class="icons">
+                            <span class="icon pointer"><i class="fas fa-search"></i></i></span>
+                            <span class="icon pointer"><i class="fas fa-paperclip"></i></i></span>
+                            <span class="icon pointer"><i class="fas fa-ellipsis-v"></i></span>
+                        </div>
+
+                    </div>
+                    <!-- fine dettagli contatto chat attiva -->
+
+                    <!-- inizio sezione messaggi chat attiva -->
+                    <div class="chat_text padding_20_30">
+
+                        <!-- inizio lista messaggi stampata con v-for -->
+                        <ul class="message_list flex">
+
+                            <!-- inizio singolo messaggio -->
+                            <li v-for="(message, index) in (contacts[currentChat].messages)"
+                            class="single_message padding_10_15"
+                            :class="message.status">
+
+                                <div
+                                class="drop_down"
+                                v-if="message.menuShow">
+                                    <ul class="dropd_list pointer">
+                                        <li
+                                        @click="infoMsg(message)">Info messaggio</li>
+                                        <li
+                                        @click="deleteMsg(index)">Elimina messaggio</li>
+                                    </ul>
+                                </div>
+
+                                <!-- testo messaggio -->
+                                <div class="msg_text">{{message.text}}</div>
+
+                                <!-- data messaggio -->
+                                <div class="msg_date">{{message.date}}</div>
+
+                                <!-- icona per menu dropdown -->
+                                <div
+                                class="msg_icon_dd pointer"
+                                @click="dropDownShow(message)">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+
+                            </li>
+                            <!-- fine singolo messaggio -->
+
+                        </ul>
+                        <!-- fine lista messaggi stampata con v-for -->
+
+                    </div>
+                    <!-- fine sezione messaggi chat attiva -->
+
+                    <!-- inizio sezione invia nuovo messaggio -->
+                    <div class="chat_input flex align_center">
+
+                        <!-- icona smile -->
+                        <span class="icon"><i class="far fa-smile"></i></span>
+
+                        <!-- inizio input per scrivere e inviare messaggi -->
+                        <div class="text_input">
+
+                            <!-- input per scrivere -->
+                            <input
+                            type="text"
+                            class="message_input"
+                            placeholder="Scrivi un messaggio"
+                            v-model="newUserMsg"
+                            @keyup.enter="sendMsg()">
+                            
+                            <!-- bottone per inviare messaggi -->
+                            <span class="send_btn circle_img pointer flex align_center" @click="sendMsg()">
+                                <i class="fas fa-paper-plane"></i>
+                            </span>
+
+                        </div>
+                        <!-- fine input per scrivere e inviare messaggi -->
+
+                        <!-- icona microfono -->
+                        <span class="icon"><i class="fas fa-microphone"></i></span>
+
+                    </div>
+                    <!-- fine sezione invia nuovo messaggio -->
+
+                </div>
+                <!-- fine colonna destra -->
+
+            </div>
+            <!-- fine app containter -->
+
+        </div>
+        <!-- fine vue js #root -->
+
+    </div>
+    <!-- FINE WRAPPER -->
+
+    <!-- JS -->
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script type="text/javascript" src="whatsapp.js"></script>   
+
+</body>
+</html>

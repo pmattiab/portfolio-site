@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix clone</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="netflix.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</head>
+<body>
+
+    <!-- INIZIO VUE JS ROOT -->
+    <div id="root">
+
+        <!-- INIZIO HEADER -->
+        <header>
+
+            <!-- logo -->
+            <img src="img/boolflix_logo.png" alt="boolflix logo">
+
+            <!-- filtro ricerca film/serie -->
+            <div class="filters">
+
+                <span class="genre_filter gray_txt" v-if="genresList.length > 0">
+                    <label for="genre_filter">Filtra per genere:</label>
+                    <select class="select_genre gray_txt" id="genre_filter" v-model="genreActive">
+                        <option value="">All</option>
+                        <option
+                            v-for="genre in genresList"
+                            :value="genre">
+                            {{genre.name}}
+                        </option>
+                    </select>
+                </span>
+
+                <!-- tasto per cercare -->
+                <button
+                    class="gray_txt"
+                    @click="searchTitle()">
+                    Cerca
+                </button>
+
+                <!-- input text per filtrare -->
+                <input
+                    type="text"
+                    v-model="userFilter"
+                    @keyup.enter="searchTitle()"
+                    placeholder="Inserisci titolo"
+                >
+            </div>
+
+        </header>
+        <!-- FINE HEADER -->
+
+        <!-- INIZIO MAIN -->
+        <main>
+
+            <div v-if="movies.length > 0" class="results_for bold">
+                <span>Risultati per "{{userFilter}}"</span>
+            </div>
+
+            <!-- inizio contenitore risultati -->
+            <div class="results_container">
+
+                <!-- messaggio nessun risultato trovato -->
+                <span
+                    v-if="starSearch"
+                    class="no_result bold">
+                    Ricerca i titoli di film e serie tv
+                </span>
+
+                <!-- inizio lista risultati -->
+                <!-- ogni risultato è una li -->
+                <ul class="results_list">
+
+                    <!-- inizio li singolo risultato -->
+                    <li
+                        v-for="movie in movies"
+                        v-if="movie.genre_ids.includes(genreActive.id) || genreActive == ''"
+                        class="single_result">
+
+                        <!-- copertina film o serie tv -->
+                        <img
+                            v-if="movie.poster_path"
+                            class="poster"
+                            :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="movie.name"
+                        >   
+                        <img
+                            v-else
+                            class="poster"
+                            src="img/no_poster.jpg" alt="no image"
+                        >
+
+                        <!-- inizio lista dettagli singolo risulatato -->
+                        <!-- ogni dettaglio sarà una li -->
+                        <ul class="result_details">
+
+                            <!-- titolo film o serie tv -->
+                            <li>
+                                <span class="bold">Titolo: </span>
+                                <span v-if="movie.title" class="gray_txt">{{movie.title}}</span>
+                                <span v-else class="gray_txt">{{movie.name}}</span>
+                            </li>
+
+                            <!-- titolo originale film o serie tv -->
+                            <li>
+                                <span class="bold">Titolo originale: </span>
+                                <span v-if="movie.original_title" class="gray_txt">{{movie.original_title}}</span>
+                                <span v-else class="gray_txt">{{movie.original_name}}</span>
+                            </li>
+
+                            <!-- lingua film o serie tv -->
+                            <li>
+                                <span class="bold">Lingua: </span>
+                                <img
+                                    v-if="langList.includes(movie.original_language)"
+                                    class="lan_flag"
+                                    :src="'img/flags/' + movie.original_language + '.png'"
+                                    alt="movie.original_language"
+                                >
+                                <span v-else class="gray_txt">{{movie.original_language}}</span>
+                            </li>
+
+                            <!-- cast film o serie tv -->
+                            <li>
+                                <span class="bold">Cast: </span>
+                                <span
+                                    v-for="actor in movie.actors"
+                                    class="gray_txt">
+                                    {{actor.name}}
+                                </span>
+                                <span
+                                    v-if="movie.actors.length == 0"
+                                    class="italic gray_txt">
+                                    non disponibile
+                                </span>
+                            </li>
+
+                            <!-- trama film o serie tv -->
+                            <li>
+                                <span class="bold">Trama: </span>
+                                <span
+                                    v-if="movie.overview"
+                                    class="gray_txt">
+                                    {{movie.overview}}
+                                </span>
+                                <span v-else class="italic gray_txt">non disponibile</span>
+                            </li>
+
+                            <!-- generi film o serie tv -->
+                            <li>
+                                <span class="bold">Genere: </span>
+                                <span
+                                    v-for="genre in movie.genres"
+                                    class="gray_txt">
+                                    {{genre.name}}
+                                </span>
+                                <span
+                                    v-if="movie.genres.length == 0"
+                                    class="italic gray_txt">
+                                    non disponibile
+                                </span>
+                            </li>
+                            
+                            <!-- voto film o serie tv -->
+                            <li>
+                                <span class="bold">Valutazione: </span>
+                                <span>
+                                    <i
+                                        v-for="star in movie.vote_average"
+                                        class="fas fa-star yellow_txt">
+                                    </i>
+                                    <i
+                                        v-for="star in (5 - movie.vote_average)"
+                                        class="fas fa-star gray_txt">
+                                    </i>
+                                </span>
+                                <span v-else class="italic gray_txt">non disponibile</span>
+                            </li>
+
+                        </ul>
+                        <!-- fine lista dettagli singolo risulatato -->
+                        
+                    </li>
+                    <!-- fine li singolo risultato -->
+
+                </ul>
+                <!-- fine lista risultati -->
+
+                <!-- messaggio nessun risultato trovato -->
+                <span v-if="noResult" class="no_result bold gray_txt">Nessun risultano corrispondente</span>
+
+            </div>
+            <!-- fine contenitore risultati -->
+            
+        </main>
+        <!-- FINE MAIN -->
+
+    </div>
+    <!-- FINE VUE JS ROOT -->
+
+    <!-- INIZIO FOOTER -->
+    <footer>
+        <span><b>@pmattiab</b></span>
+        <span>Netflix clone with</span>
+        <img src="img/vue_logo.png" alt="vue">
+    </footer>
+    <!-- FINE FOOTER -->
+
+    <!-- JS -->
+    <script type="text/javascript" src="netflix.js"></script>   
+
+</body>
+</html>
