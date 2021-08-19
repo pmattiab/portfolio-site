@@ -9,7 +9,7 @@
 body {
     height: 100vh;
     width: 100%;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #029588;
     background-image: linear-gradient(180deg, #029588 20%, #d2dbdb 20%);
 }
@@ -259,7 +259,7 @@ li {
 .chat_text {
     height: calc(100% - 180px);
     overflow-y: auto;
-    background-image: url(../img/mine.jpg)
+    background-image: url(img/mine.jpg)
 }
 
 .message_list {

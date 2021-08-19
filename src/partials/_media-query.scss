@@ -55,6 +55,15 @@
             font-weight: 400;
         }
     }
+
+    .project-description {
+    
+        a {
+            display: block;
+            width: max-content;
+            margin: 20px auto 0 auto;
+        }
+    }
 }
 
 /* responsive screen sotto 620 */
@@ -70,16 +79,6 @@
 
     .row {
         flex-direction: column;
-    }
-
-    .project-description {
-    
-        a {
-            display: block;
-            width: max-content;
-            margin: auto;
-            margin-top: 20px;
-        }
     }
 
     .blob {

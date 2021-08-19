@@ -78,6 +78,11 @@ header nav li {
   display: inline-block;
   margin: 20px 10px;
 }
+header nav .site-logo {
+  height: 30px;
+  width: auto;
+  vertical-align: sub;
+}
 header nav.show {
   opacity: 1;
   pointer-events: auto;
@@ -288,6 +293,7 @@ section#projects {
   font-size: 15px;
   margin-left: 20px;
   display: inline-block;
+  margin: 20px 0 0 10px;
 }
 .project-description a:active {
   transform: translateY(2px);
@@ -340,6 +346,11 @@ section#projects {
 .todo {
   background: #373b44;
   background: linear-gradient(245deg, #373b44 0%, #4286f4 100%);
+}
+
+.burger {
+  background: #d91700;
+  background: linear-gradient(245deg, #d91700 0%, #f79733 100%);
 }
 
 .slider {
@@ -538,6 +549,14 @@ button#linkedin-close:active {
     font-size: 19px;
     font-weight: 400;
   }
+
+  .project-description a {
+    display: block;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    margin: 20px auto 0 auto;
+  }
 }
 /* responsive screen sotto 620 */
 @media screen and (max-width: 620px) {
@@ -551,15 +570,6 @@ button#linkedin-close:active {
 
   .row {
     flex-direction: column;
-  }
-
-  .project-description a {
-    display: block;
-    width: -webkit-max-content;
-    width: -moz-max-content;
-    width: max-content;
-    margin: auto;
-    margin-top: 20px;
   }
 
   .blob {

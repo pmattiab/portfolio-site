@@ -41,6 +41,13 @@ var app = new Vue(
                     grayscale: false,
                 },
                 {
+                    title: "BURGER",
+                    description: "A simple web app, using HTML, CSS and JavaScript",
+                    descrVisible: false,
+                    class: "burger",
+                    grayscale: false,
+                },
+                {
                     title: "SLIDER",
                     description: "A simple images slideshow, using HTML, CSS and Vue JS",
                     descrVisible: false,

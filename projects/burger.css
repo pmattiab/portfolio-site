@@ -1,0 +1,200 @@
+/* COMMON */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff4e2;
+    height: 100vh;
+}
+
+.wrapper {
+    width: 900px;
+}
+
+/* HEADER */
+header {
+    height: 160px;
+    background-color: #fdbb40;
+    padding: 70px 30px 0;
+}
+
+h1 {
+    font-size: 40px;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: super;
+}
+
+/* img burger */
+.title .title_img {
+    height: 60px;
+    display: inline-block;
+    position: relative;
+}
+
+.title img {
+    height: 100%;
+    width: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: burgermove 2s alternate ease-in-out infinite;
+}
+
+/* animazione img burger */
+@keyframes burgermove {
+    0% {
+        top: 0;
+        left: 0;
+    }
+
+    50% {
+        top: 0;
+        left: 50px;
+    }
+}
+
+/* MAIN */
+main {
+    height: calc(100vh - 300px);
+    background-color: white;
+    padding: 0 30px;
+    overflow: hidden;
+}
+
+main h2 {
+    font-size: 27px;
+    font-weight: 500;
+}
+
+/* nome burger */
+.burger_name input {
+    font-size: 30px;
+    border: 0;
+}
+
+/* lista ingredienti */
+.ingredients_list {
+    display: flex;
+}
+
+.ingredients_list>div {
+    width: calc(50%);
+}
+
+.ingredients_list img {
+    width: 50px;
+    height: auto;
+}
+
+main .burger_name,
+main .coupon_area, 
+main .calculate_area {
+    margin: 40px 0;
+}
+
+main .ingredients_list,
+main .col_sx>div,
+main .col_dx>div {
+    margin: 20px 0;
+}
+
+main .col_sx img,
+main .col_dx img {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* coupon */
+.coupon_area label {
+    font-size: 18px;
+}
+
+.coupon_area input {
+    width: 50%;
+    font-size: 18px;
+    padding: 5px 10px;
+    background-color: #fff4e2;
+    border: 0;
+    border-radius: 5px;
+}
+
+/* bottone calcola */
+.calculate_area {
+    text-align: center;
+}
+
+.calculate_area button {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #fdbb40;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.calculate_area button:hover {
+    background-color: #fe7f3f;
+}
+
+/* FOOTER */
+footer {
+    height: 140px;
+    color: white;
+    font-size: 30px;
+    font-weight: 600;
+    background-color: #d23359;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* prezzo */
+footer .your_price {
+    width: 65%;
+}
+
+footer #discount_apply {
+    font-size: 15px;
+    text-align: center;
+}
+
+/* classe per nascondere sconto */
+footer .hidden {
+    opacity: 0;
+}
+
+/* classe per mostrare sconto */
+footer .show {
+    opacity: 0;
+    animation: couponshow 2s;
+}
+
+/* animazione per messaggio sconto */
+@keyframes couponshow {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

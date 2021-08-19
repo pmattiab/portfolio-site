@@ -33,6 +33,7 @@ section#projects {
         font-size: 15px;
         margin-left: 20px;
         display: inline-block;
+        margin: 20px 0 0 10px;
 
         &:active {
             transform: translateY(+2px);
@@ -91,6 +92,11 @@ section#projects {
 .todo {
     background: rgb(55,59,68);
     background: linear-gradient(245deg, rgba(55,59,68,1) 0%, rgba(66,134,244,1) 100%);
+}
+
+.burger {
+    background: rgb(217,23,0);
+    background: linear-gradient(245deg, rgba(217,23,0,1) 0%, rgba(247,151,51,1) 100%);
 }
 
 .slider {
